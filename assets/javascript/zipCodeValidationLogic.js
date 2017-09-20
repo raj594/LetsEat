@@ -1,4 +1,4 @@
-$(document).ready( function() {
+$(document).ready( function() {    
 	$("#btn-test").on("click", function() {
 		var zipCode = $("#zip").val().trim();
 		var apiKey = "l606B8AHNrvFcAqG2TcmC6DCfyqmiZzE6zLHIlpwNUbZvBFxvSU8YxKe5bAoa92h";
