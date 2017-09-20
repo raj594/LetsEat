@@ -30,3 +30,12 @@ body{
    border-bottom: 1px solid #f2b632 !important;
    box-shadow: 0 1px 0 0 #f2b632 !important
  }
+
+ .btn {
+ 	background-color: #677077;
+ 	color: #252839;
+ }
+
+ .btn:hover {
+ 	background-color: #f2b632;
+ }
