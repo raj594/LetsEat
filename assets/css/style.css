@@ -1,0 +1,32 @@
+.mainTitle{
+	font-family: 'Amatic SC', cursive;
+	font-size: 64px;
+	color: #677077;
+}
+
+body{
+	background-color: #252839;
+}
+
+.defaultText{
+	color: #677077;
+
+}
+
+.select-wrapper input.select-dropdown {
+	color: #677077;
+}
+
+
+.dropdown-content li>a, .dropdown-content li>span {
+	color: #f2b632;
+}
+
+.input-field input[type=text]:focus + label {
+	color: #f2b632 !important;
+}
+
+.row .input-field input:focus {
+   border-bottom: 1px solid #f2b632 !important;
+   box-shadow: 0 1px 0 0 #f2b632 !important
+ }
