@@ -39,3 +39,20 @@ body{
  .btn:hover {
  	background-color: #f2b632;
  }
+
+ /* Always set the map height explicitly to define the size of the div
+ * element that contains the map. */
+#map {
+  height: 500px;
+  width: 500px;
+  display: inline-block;
+  margin-top: 30px;
+
+}
+/* Optional: Makes the sample page fill the window. */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
