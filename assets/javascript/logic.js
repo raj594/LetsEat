@@ -1,3 +1,6 @@
+$(document).ready(function() {
+
+
 $('select').material_select();
 
 
@@ -7,6 +10,8 @@ var infowindow;
 var austin;
 var gmarkers = [];
 var lastMarker;
+var latitude = "";
+var longitude = "";
 
 function initialize() {
   austin = new google.maps.LatLng(30.2672,-97.7431);
@@ -25,6 +30,10 @@ function initialize() {
   service = new google.maps.places.PlacesService(map);
 }
 
+
+
+
+
 function callback(results, status) {
   if (status == google.maps.places.PlacesServiceStatus.OK) {
     if (results.length === 1){
@@ -38,6 +47,9 @@ function callback(results, status) {
     }
   }
 }
+
+
+
 
 function createMarker(place) {
   // If lastMarker exists, hide it to draw new one
@@ -77,10 +89,21 @@ function createMarker(place) {
 $('#pick-restaurant').on('click', function(event){
   event.preventDefault();
 
-  var place = $('#test-restaurant').val().trim()
+  var place = $('#test-restaurant').val()
   var radius = $('#maxDist').val().trim()
+  var zip = $("#zipCode").val().trim();
+  var geocoder = new google.maps.Geocoder();
   console.log(place)
   console.log(radius)
+geocoder.geocode( { 'address': zip}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+         latitude = results[0].geometry.location.lat();
+         longitude = results[0].geometry.location.lng();
+         console.log("Latitude" + latitude+ "longitude" + longitude);
+         initialize();
+        }
+       else {alert("Invalid zip code") };
+
   var request = {
     location: austin,
     radius: radius,
@@ -91,4 +114,6 @@ $('#pick-restaurant').on('click', function(event){
   service.textSearch(request, callback);
 
 });
+});
 
+});
