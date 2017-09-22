@@ -1,6 +1,6 @@
 $(document).ready( function() {    
 	$("#btn-test").on("click", function() {
-		var zipCode = $("#zip").val().trim();
+		var zipCode = $("#zipCode").val().trim();
 		var apiKey = "l606B8AHNrvFcAqG2TcmC6DCfyqmiZzE6zLHIlpwNUbZvBFxvSU8YxKe5bAoa92h";
 		// Distance away from the zip code to find restaurants. Initialized to 0 to find only restaurants in the given zip code,
 		// but can be changed later to allow user input if we add that functionality
@@ -33,15 +33,6 @@ $(document).ready( function() {
 			}).done( function(response) {
 				console.log(response);
 			});
-			// var client = new XMLHttpRequest();
-			// client.open("GET", "http://api.zippopotam.us/us/90210", true);
-			// client.onreadystatechange = function() {
-			// 	if(client.readyState == 4) {
-			// 	console.log(client.responseText);
-			// };
-			// };
-
-// client.send();
 		}
 	});
 });
