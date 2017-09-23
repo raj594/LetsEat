@@ -81,6 +81,7 @@ initialize();
     // save current marker to be able to hide it at the top of createMarker
     lastMarker = marker;
 
+
     // create the infoWindow incase the user clicks on the marker
     infowindow = new google.maps.InfoWindow();
     google.maps.event.addListener(marker, 'click', function() {
