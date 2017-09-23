@@ -56,7 +56,7 @@
 				<label class="active defaultText" for="maxDist">Distance</label>
 			</div>
 			<div class="input-field col s4">
-				<select>
+				<select id = "unit">
 					<option value="1">mi</option>
 					<option value="2">km</option>
 				</select>
@@ -69,7 +69,15 @@
 			  <button class="btn waves-effect waves-light" type="submit" id="pick-restaurant" name="action">Submit <i class="material-icons right"></i></button>
 		</div>
 	</div>
-	<div id="map"></div>
+	<div class="row">
+		<div class="col l6 m12">
+			<div id="map"></div>
+		</div>
+		<div class="col l6 m12" id = "restaurantInfo">
+			
+		</div>
+	</div>
+	
 
 </div>
 
@@ -80,7 +88,7 @@
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC36_KRCQZfFxrJsNSZkGKcmlvzNd_v-Hg&libraries=places" async defer></script>
 	<script type="text/javascript" src="assets/javascript/logic.js"></script>
 	<script type="text/javascript" src="assets/javascript/zipCodeValidationLogic.js"></script>
-	<script type="text/javascript" src="assets/javascript/zomatoLogic.js"></script>
+	<!-- <script type="text/javascript" src="assets/javascript/zomatoLogic.js"></script> -->
 	
 </body>
 
