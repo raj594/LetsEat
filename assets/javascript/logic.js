@@ -100,6 +100,12 @@ initialize();
   $('#pick-restaurant').on('click', function(event){
     event.preventDefault();
 
+    var request = {
+      location: austin,
+      radius: $('#max-distance').val().trim(),
+      query: $('#restaurant-type').val()
+    };
+
     var place = $('#restaurant-type').val()
     var radius = $('#max-distance').val().trim()
     var zip = $("#zipcode").val().trim();
@@ -114,12 +120,11 @@ initialize();
              
             }
            else {alert("Invalid zip code") };
+           request.location = new google.maps.LatLng(latitude, longitude);
 
-      var request = {
-        location: austin,
-        radius: radius,
-        query: place
-      };
+      
+    });
+    console.log(request)
 
           // Use restaurant search to get lists of restaurants
       $.ajax({
@@ -149,7 +154,7 @@ initialize();
 
       
 
-    });
+
 
   });
 
