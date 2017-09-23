@@ -104,16 +104,14 @@ initialize();
     // var latitude = 30.4484517308;
     // var longitude = -97.6369159113;
     // Number of restaurant options to return during restaurant search
-    var numOptions = 10;
+    var numOptions = 20;
     // Number of reviews to return
     var numReviews = 5;
-    // Radius in which to search measured in meters from latitude and longitude
-    var radius = 8000;
     // Object to hold the selected restaurant's name and zomato id
     var restaurant;
-
-    var place = $('#restaurant-type').val()
-    var radius = $('#max-distance').val().trim()
+    // Zomato id for type of cuisine
+    var place = $('#restaurant-type').val();
+    var radius = parseFloat($('#max-distance').val().trim());
     var zip = $("#zipcode").val().trim();
     var geocoder = new google.maps.Geocoder();
     var unitMeausre = $("#unit").val();
@@ -145,7 +143,7 @@ initialize();
 
           // Use restaurant search to get lists of restaurants
       $.ajax({
-        url: "https://developers.zomato.com/api/v2.1/search?count=" + numOptions + "&lat=" + latitude + "&lon=" + longitude + "&radius=" + radius + "&cuisines=" + choice,
+        url: "https://developers.zomato.com/api/v2.1/search?count=" + numOptions + "&lat=" + latitude + "&lon=" + longitude + "&radius=" + radius + "&cuisines=" + place,
         method: "GET",
         headers: {
           "user-key": apiKey
@@ -162,7 +160,8 @@ initialize();
         };
 
         request.query = restaurant.name;
-
+        console.log("latitude = " + latitude);
+        console.log("longitude = " + longitude);
         console.log(request.query)
 
         service = new google.maps.places.PlacesService(map);
