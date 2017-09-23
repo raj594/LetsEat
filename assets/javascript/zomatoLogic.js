@@ -13,7 +13,9 @@ $(document).ready( function() {
 	var restaurant;
 
 	// Submit button click handler
+
 	$("#pick-restaurant").on("click", function() {
+
 		var city = $("#zipCode").val().trim();
 
 		// Use restaurant search to get lists of restaurants
