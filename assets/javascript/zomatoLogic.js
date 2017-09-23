@@ -5,11 +5,10 @@ $(document).ready( function() {
 
 		var apiKey = "78c3b592f11e635d1163fbb5b3ca7918";
 
-		var city = $("#zipCode").val().trim();
+		var zip = $("#zipCode").val().trim();
 		// ID for the type of cuisine
 		var choice;
 		console.log("choice = " + choice);
-		var city;
 		var latitude = 30.4484517308;
 		var longitude = -97.6369159113;
 		// Number of restaurant options to return during restaurant search
