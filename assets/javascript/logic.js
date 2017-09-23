@@ -164,9 +164,15 @@ initialize();
         restaurant = {
           "name": response.restaurants[randomNum].restaurant.name,
           "id": response.restaurants[randomNum].restaurant.id,
-          "price": response.restaurants[randomNum].restaurant.currency
+          "price": response.restaurants[randomNum].restaurant.currency,
+          "address": response.restaurants[randomNum].restaurant.location.address,
+          "city": response.restaurants[randomNum].restaurant.location.city,
+          "zipcode": response.restaurants[randomNum].restaurant.location.zipcode,
+          "latitude": response.restaurants[randomNum].restaurant.location.latitude,
+          "longitude": response.restaurants[randomNum].restaurant.location.longitude
         };
-
+        console.log(restaurant);
+      
         request.query = restaurant.name;
         console.log(request.query)
 
