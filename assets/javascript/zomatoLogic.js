@@ -12,7 +12,7 @@ $(document).ready( function() {
 	var restaurant = {};
 
 	// Submit button click handler
-	$("#btn-submit").on("click", function() {
+	$("#p").on("click", function() {
 		var city = $("#zipCode").val().trim();
 
 		// Use restaurant search to get lists of restaurants
