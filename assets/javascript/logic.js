@@ -109,9 +109,13 @@ initialize();
     var numReviews = 5;
     // Object to hold the selected restaurant's name and zomato id
     var restaurant;
+
+    var queryUrl = "";
+
     // Zomato id for type of cuisine
     var place = $('#restaurant-type').val();
     var radius = parseFloat($('#max-distance').val().trim());
+
     var zip = $("#zipcode").val().trim();
     var geocoder = new google.maps.Geocoder();
     var unitMeausre = $("#unit").val();
@@ -140,10 +144,14 @@ initialize();
         radius: radius,
         query: place
       };
+      queryUrl = "https://developers.zomato.com/api/v2.1/search?count=" + numOptions + "&lat=" + latitude + "&lon=" + longitude + "&radius=" + radius + "&cuisines=" + choice
+      console.log(queryUrl)
 
           // Use restaurant search to get lists of restaurants
       $.ajax({
-        url: "https://developers.zomato.com/api/v2.1/search?count=" + numOptions + "&lat=" + latitude + "&lon=" + longitude + "&radius=" + radius + "&cuisines=" + place,
+
+        url: queryUrl,
+
         method: "GET",
         headers: {
           "user-key": apiKey
