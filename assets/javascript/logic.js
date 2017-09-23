@@ -104,6 +104,16 @@ initialize();
     var radius = $('#max-distance').val().trim()
     var zip = $("#zipcode").val().trim();
     var geocoder = new google.maps.Geocoder();
+    var unitMeausre = $("#unit").val();
+
+    //converting miles or km to meters
+    if(unitMeausre==="1"){
+      radius = radius*1609.34;
+    }
+
+    else if(unitMeausre==="2"){
+      radius = radius*1000;
+    }
     
 
     geocoder.geocode( { 'address': zip}, function(results, status) {
