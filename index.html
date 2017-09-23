@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+`<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
@@ -19,14 +19,23 @@
 
 	<div class="row ">
 		<div class="input-field col s3">
-			 <input value = "" id="zipCode" type="text" class="validate"> 
+			 <input value = "" id="zipcode" type="text" class="validate"> 
      			<label class="active" for="zipCode">Zip Code</label>
 		</div>
 		<div class="input-field col s3">
-			<select>
+			<select id="restaurant-type">
       			<option class = "defaultText"value="" disabled selected>Select a Category</option>
-     			 <option value="1">restaurant</option>
-     			 <option value="2">Don't choose this one</option>
+
+     			 <option value="1">American</option>
+     			 <option value="193">BBQ</option>
+     			  <option value="3">Asian</option>
+     			  <option value="148">Indian</option>
+     			  <option value="55">Italian</option>
+     			   <option value="73">Mexican</option>
+     			   <option value="82">Pizza</option>
+     			   <option value="141">Steak</option>
+
+
     		</select>
     		<label>Category</label>
 			
@@ -43,7 +52,7 @@
 		</div>
 		<div class="col s3">
 			<div class="input-field col s8">
-				<input value = "" id = "maxDist" type="text" class="validate">
+				<input value = "" id = "max-distance" type="text" class="validate">
 				<label class="active defaultText" for="maxDist">Distance</label>
 			</div>
 			<div class="input-field col s4">

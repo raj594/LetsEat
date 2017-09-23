@@ -1,7 +1,10 @@
 $(document).ready( function() {
 	// Submit button click handler
+
 	$("#pick-restaurant").on("click", function() {
+
 		var apiKey = "78c3b592f11e635d1163fbb5b3ca7918";
+
 		var city = $("#zipCode").val().trim();
 		// ID for the type of cuisine
 		var choice;
