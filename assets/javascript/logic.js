@@ -93,6 +93,8 @@ $('#pick-restaurant').on('click', function(event){
   var radius = $('#maxDist').val().trim()
   var zip = $("#zipCode").val().trim();
   var geocoder = new google.maps.Geocoder();
+  var choice = $("#cuisineType").val();
+  console.log("choice:" + choice);
   console.log(place)
   console.log(radius)
 geocoder.geocode( { 'address': zip}, function(results, status) {
@@ -102,7 +104,8 @@ geocoder.geocode( { 'address': zip}, function(results, status) {
          console.log("Latitude" + latitude+ "longitude" + longitude);
          initialize();
         }
-       else {alert("Invalid zip code") };
+       else {
+        };
 
   var request = {
     location: austin,
