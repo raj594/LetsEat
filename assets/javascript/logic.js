@@ -3,7 +3,6 @@ $(document).ready(function() {
 
 $('select').material_select();
 
-// var apiKey = "78c3b592f11e635d1163fbb5b3ca7918";
 var choice;
 var city;
 var map;
@@ -12,9 +11,9 @@ var infowindow;
 var austin;
 var gmarkers = [];
 var lastMarker;
+
 var restaurantNumber;
 
-// var numOptions = 10;
 initialize();
 
 
@@ -89,14 +88,20 @@ initialize();
     return Math.floor((Math.random() * max) + min);
   }
 
+  function populateRestaurantInfo(restaurant) {
+    $("#restaurantInfo").html("Hello");
+  }
+
 
   $('#pick-restaurant').on('click', function(event){
     event.preventDefault();
 
     // API key for Zomato
     var apiKey = "78c3b592f11e635d1163fbb5b3ca7918";
+
     var latitude = "";
     var longitude = "";
+
     // Number of restaurant options to return during restaurant search
     var numOptions = 20;
     // Number of reviews to return
@@ -158,43 +163,71 @@ initialize();
           alert("Error during getRestaurantOptions");
         }
       }).done( function(response) {
-        var randomNum = getRandomNum(0, response.restaurants.length - 1);
-        restaurantNumber = response.results_found;
+
         
-        restaurant = {
-          "name": response.restaurants[randomNum].restaurant.name,
-          "id": response.restaurants[randomNum].restaurant.id,
-          "price": response.restaurants[randomNum].restaurant.currency,
-          "address": response.restaurants[randomNum].restaurant.location.address,
-          "city": response.restaurants[randomNum].restaurant.location.city,
-          "zipcode": response.restaurants[randomNum].restaurant.location.zipcode,
-          "latitude": response.restaurants[randomNum].restaurant.location.latitude,
-          "longitude": response.restaurants[randomNum].restaurant.location.longitude
-        };
+
         
         request.query = restaurant.name;
-        console.log(request)
 
-        service = new google.maps.places.PlacesService(map);
-        service.textSearch(request, callback);
 
-        // Use reviews search to get reviews for the chosen restaurant
-      $.ajax({
-        url: "https://developers.zomato.com/api/v2.1/reviews?res_id=" + restaurant.id + "&count=" + numReviews,
-        method: "GET",
-        headers: {
-          "user-key": apiKey
-        },
-        error: function() {
-          alert("Error during review search ajax call");
+        var restaurants = response.restaurants;
+        var randomNum;
+        var resultsFound = false;
+
+        // Pick a random restaurant out of the results returned. If that restaurant is outside the specified radius, then cycle through the others to check if there
+        // is a restaurant in the returned results that fits the search criteria
+        while (restaurants.length > 0) {
+          console.log(restaurants);
+          // Pick a random number that will be the index for the restaurant to show the user
+          randomNum = getRandomNum(0, restaurants.length - 1);
+          restaurant = restaurants[randomNum].restaurant;
+          console.log(restaurant);
+          // If the chosen restaurant is within the proper radius, then break out of the while loop
+          if (radius === 0 && zip === restaurant.location.zipcode) {
+            resultsFound = true;
+            break;
+          }
+          // Added 500 to radius as estimate to account for length and width of zip code area
+          else if (Math.abs(restaurant.location.latitude - latitude) <= radius + 500 && Math.abs(restaurant.location.longitude - longitude) <= radius + 500) {
+            resultsFound = true;
+            break;
+          }
+          // Remove the restaurant that was found to be out of radius from the restaurants array
+          else {
+            restaurants.splice(randomNum, 1);
+          }
         }
-      }).done( function(response) {
-        console.log(response);
-        
-      });
-      });
 
-      
+
+        if (resultsFound) {
+          request.query = restaurant.name;
+          console.log(request.query)
+
+          service = new google.maps.places.PlacesService(map);
+          service.textSearch(request, callback);
+
+          populateRestaurantInfo(restaurant);
+
+          // Use reviews search to get reviews for the chosen restaurant
+          $.ajax({
+            url: "https://developers.zomato.com/api/v2.1/reviews?res_id=" + restaurant.id + "&count=" + numReviews,
+            method: "GET",
+            headers: {
+              "user-key": apiKey
+            },
+            error: function() {
+              alert("Error during review search ajax call");
+            }
+          }).done( function(response) {
+            console.log(response);
+            
+          });
+        }
+        else {
+          console.log("No results found within specified radius");
+        }
+
+      });
 
     });
 
