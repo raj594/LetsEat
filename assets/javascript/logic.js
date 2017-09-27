@@ -94,6 +94,10 @@ initialize();
     return Math.floor((Math.random() * max) + min);
   }
 
+  function populateRestaurantInfo(restaurant) {
+    $("#restaurantInfo").html("Hello");
+  }
+
 
   $('#pick-restaurant').on('click', function(event){
     event.preventDefault();
@@ -190,6 +194,8 @@ initialize();
 
           service = new google.maps.places.PlacesService(map);
           service.textSearch(request, callback);
+
+          populateRestaurantInfo(restaurant);
 
           // Use reviews search to get reviews for the chosen restaurant
           $.ajax({
