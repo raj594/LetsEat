@@ -142,7 +142,6 @@ initialize();
       location: austin,
       radius: radius,
       query: place,
-      maxPriceLevel: maxPrice,
       openNow: true
     };
 
