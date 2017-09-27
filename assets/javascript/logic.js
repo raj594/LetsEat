@@ -11,8 +11,8 @@ var infowindow;
 var austin;
 var gmarkers = [];
 var lastMarker;
-var latitude = "";
-var longitude = "";
+
+var restaurantNumber;
 
 initialize();
 
@@ -34,10 +34,6 @@ initialize();
     service = new google.maps.places.PlacesService(map);
   }
 
-
-
-
-
   function callback(results, status) {
     if (status == google.maps.places.PlacesServiceStatus.OK) {
       if (results.length === 1){
@@ -45,15 +41,13 @@ initialize();
       } else if ( results.length > 1){
         map.setZoom(13);
       }
-      for (var i = 0; i < results.length; i++) {
+      for (var i = 0; i < 1; i++) {
         var place = results[i];
+        console.log(place)
         createMarker(results[i]);
       }
     }
   }
-
-
-
 
   function createMarker(place) {
     // If lastMarker exists, hide it to draw new one
@@ -104,6 +98,10 @@ initialize();
 
     // API key for Zomato
     var apiKey = "78c3b592f11e635d1163fbb5b3ca7918";
+
+    var latitude = "";
+    var longitude = "";
+
     // Number of restaurant options to return during restaurant search
     var numOptions = 20;
     // Number of reviews to return
@@ -119,6 +117,7 @@ initialize();
     var zip = $("#zipcode").val().trim();
     var geocoder = new google.maps.Geocoder();
     var unitMeausre = $("#unit").val();
+    var maxPrice = parseInt($("#prices").val());
 
     //converting miles or km to meters
     if(unitMeausre==="1"){
@@ -132,20 +131,24 @@ initialize();
 
     geocoder.geocode( { 'address': zip}, function(results, status) {
           if (status == google.maps.GeocoderStatus.OK) {
-             latitude = results[0].geometry.location.lat();
-             longitude = results[0].geometry.location.lng();
-             console.log("Latitude" + latitude+ "longitude" + longitude);
-             
-            }
-           else {alert("Invalid zip code") };
+            latitude = results[0].geometry.location.lat();
+            longitude = results[0].geometry.location.lng();
+            console.log("Latitude" + latitude+ "longitude" + longitude);
+          } else {
+              alert("Invalid zip code")
+          };
 
-      var request = {
-        location: austin,
-        radius: radius,
-        query: place
-      };
-      queryUrl = "https://developers.zomato.com/api/v2.1/search?count=" + numOptions + "&lat=" + latitude + "&lon=" + longitude + "&radius=" + radius + "&cuisines=" + place;
-      console.log(queryUrl)
+    var request = {
+      location: austin,
+      radius: radius,
+      query: place,
+      maxPriceLevel: maxPrice,
+      openNow: true
+    };
+
+
+    queryUrl = "https://developers.zomato.com/api/v2.1/search?count=" + numOptions + "&lat=" + latitude + "&lon=" + longitude + "&radius=" + radius + "&cuisines=" + place;
+    console.log(queryUrl)
 
       // Use restaurant search to get lists of restaurants
       $.ajax({
@@ -160,6 +163,13 @@ initialize();
           alert("Error during getRestaurantOptions");
         }
       }).done( function(response) {
+
+        
+
+        
+        request.query = restaurant.name;
+
+
         var restaurants = response.restaurants;
         var randomNum;
         var resultsFound = false;
@@ -188,6 +198,7 @@ initialize();
           }
         }
 
+
         if (resultsFound) {
           request.query = restaurant.name;
           console.log(request.query)
@@ -215,13 +226,8 @@ initialize();
         else {
           console.log("No results found within specified radius");
         }
-      
-        
 
-        
       });
-
-      
 
     });
 
