@@ -1,8 +1,10 @@
+$('#firstReview').hide();
+
 $(document).ready(function() {
 
 
 $('select').material_select();
-$('#firstReview').hide();
+
 
 var choice;
 var city;
@@ -45,15 +47,16 @@ initialize();
 
   function callback(results, status) {
     if (status == google.maps.places.PlacesServiceStatus.OK) {
+      console.log(results)
       if (results.length === 1){
         map.setZoom(15)
       } else if ( results.length > 1){
         map.setZoom(13);
       }
-      for (var i = 0; i < 1; i++) {
-        var place = results[i];
-        createMarker(results[i]);
-      }
+
+      var place = results[0];
+      createMarker(results[0]);
+
     }
   }
 
@@ -202,15 +205,14 @@ initialize();
           };
 
     var request = {
-      location: austin,
-      radius: radius,
+      location: {lat:latitude, lng:longitude},
+      radius: 5,
       query: place,
-      openNow: true
+      // openNow: true
     };
 
 
     queryUrl = "https://developers.zomato.com/api/v2.1/search?count=" + numOptions + "&start=" + restaurantNumber + "&lat=" + latitude + "&lon=" + longitude + "&radius=" + radius + "&cuisines=" + place;
-    console.log(queryUrl)
 
       // Use restaurant search to get lists of restaurants
       $.ajax({
@@ -225,46 +227,41 @@ initialize();
           alert("Error during getRestaurantOptions");
         }
       }).done( function(response) {
-        console.log(response)
+
         lastSearch.lastResultsFound = response.results_found;
-        var restaurants = response.restaurants;
+        // var restaurants = response.restaurants;
         var randomNum;
         var resultsFound = false;
+        restaurants = response.restaurants;
+        randomNum = getRandomNum(0, restaurants.length - 1);
+        restaurant = restaurants[randomNum].restaurant;
+        populateRestaurantInfo(restaurant);
 
         // Pick a random restaurant out of the results returned. If that restaurant is outside the specified radius, then cycle through the others to check if there
         // is a restaurant in the returned results that fits the search criteria
-        while (restaurants.length > 0) {
+        // while (restaurants.length > 0) {
 
-          // Pick a random number that will be the index for the restaurant to show the user
-          randomNum = getRandomNum(0, restaurants.length - 1);
-          restaurant = restaurants[randomNum].restaurant;
+        //   // Pick a random number that will be the index for the restaurant to show the user
+        
 
-          // If the chosen restaurant is within the proper radius, then break out of the while loop
-          if (radius === 0 && zip === restaurant.location.zipcode) {
-            resultsFound = true;
-            break;
-          }
-          // Added 500 to radius as estimate to account for length and width of zip code area
-          else if (Math.abs(restaurant.location.latitude - latitude) <= radius + 500 && Math.abs(restaurant.location.longitude - longitude) <= radius + 500) {
-            resultsFound = true;
-            break;
-          }
-          // Remove the restaurant that was found to be out of radius from the restaurants array
-          else {
-            restaurants.splice(randomNum, 1);
-          }
-        }
+        //   // If the chosen restaurant is within the proper radius, then break out of the while loop
+        //   if (radius === 0 && zip === restaurant.location.zipcode) {
+        //     resultsFound = true;
+        //     break;
+        //   }
+        //   // Added 500 to radius as estimate to account for length and width of zip code area
+        //   else if (Math.abs(restaurant.location.latitude - latitude) <= radius + 500 && Math.abs(restaurant.location.longitude - longitude) <= radius + 500) {
+        //     resultsFound = true;
+        //     break;
+        //   }
+        //   // Remove the restaurant that was found to be out of radius from the restaurants array
+        //   else {
+        //     restaurants.splice(randomNum, 1);
+        //   }
+        // }
 
 
-        if (resultsFound) {
-          request.query = restaurant.name;
-
-          service = new google.maps.places.PlacesService(map);
-          service.textSearch(request, callback);
-
-          populateRestaurantInfo(restaurant);
-
-          // Use reviews search to get reviews for the chosen restaurant
+        // if (resultsFound) {
           $.ajax({
             url: "https://developers.zomato.com/api/v2.1/reviews?res_id=" + restaurant.id + "&count=" + numReviews,
             method: "GET",
@@ -279,10 +276,17 @@ initialize();
             getReviews(reviewArray);
             
           });
-        }
-        else {
-          console.log("No results found within specified radius");
-        }
+          request.query = restaurant.name;
+          console.log(request)
+          service.textSearch(request, callback);
+
+          
+          // Use reviews search to get reviews for the chosen restaurant
+          
+        // }
+        // else {
+        //   console.log("No results found within specified radius");
+        // }
 
       });
 
