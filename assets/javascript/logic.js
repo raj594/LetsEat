@@ -2,6 +2,7 @@ $(document).ready(function() {
 
 
 $('select').material_select();
+$('#firstReview').hide();
 
 var choice;
 var city;
@@ -88,14 +89,48 @@ initialize();
     return Math.floor((Math.random() * max) + min);
   }
 
-  function populateRestaurantInfo(restaurant) {
-    $("#restaurantInfo").html("Hello");
-  }
 
+  function populateRestaurantInfo(restaurant) {
+     var card = $("<div id='restaurant-info-card' class='card'>");
+     var cardTitle = $("<span class='card-title'>" + restaurant.name + ", " + restaurant.currency + "</span>");
+     var cardContent = $("<div class='card-content'><p>" + restaurant.location.address + "</p></div>");
+
+     // If there is a picture available,  then add it to the card
+     if (restaurant.thumb !== "") {
+       var cardImg = $("<div class='card-image'><img src='" + restaurant.thumb + "'>");
+       card.append(cardImg);
+     }
+   
+     card.append(cardTitle);
+     card.append(cardContent);
+     $("#restaurantInfo").empty();
+     $("#restaurantInfo").append(card);
+   }
+
+   function getReviews(arrayofreviews) {
+
+      if(arrayofreviews.length!=0) {  
+      var p = ("<p>");
+      p = arrayofreviews[0].review.review_text;
+      var userpic = $("<img>")
+      var userImg = arrayofreviews[0].review.user.profile_image;
+      var username = $("<h1>");
+      username = arrayofreviews[0].review.user.name;
+      userpic.attr("src", userImg);
+      
+      $("#cardImg").append(userpic);
+      $("#cardContent").append(p);
+      $("#cardContent").append("-" + username);
+      
+      $("#firstReview").show();
+      }
+    }
 
   $('#pick-restaurant').on('click', function(event){
     event.preventDefault();
-
+    $('#cardContent').empty();
+    $('#cardImg').empty();
+    
     // API key for Zomato
     var apiKey = "78c3b592f11e635d1163fbb5b3ca7918";
 
@@ -213,7 +248,8 @@ initialize();
               alert("Error during review search ajax call");
             }
           }).done( function(response) {
-            console.log(response);
+            var reviewArray = response.user_reviews;
+            getReviews(reviewArray);
             
           });
         }
