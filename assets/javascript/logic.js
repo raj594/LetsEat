@@ -164,12 +164,7 @@ initialize();
         }
       }).done( function(response) {
 
-        
-
-        
-        request.query = restaurant.name;
-
-
+  
         var restaurants = response.restaurants;
         var randomNum;
         var resultsFound = false;
