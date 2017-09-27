@@ -98,19 +98,6 @@ initialize();
 
 
   function populateRestaurantInfo(restaurant) {
-    var picDiv = $("<div id='restaurant-img'><img src='" + restaurant.thumb + "'></div>");
-    var nameDiv = $("<div id='restaurant-name'>" + restaurant.name + "</div>");
-    var priceRangeDiv = $("<div id='price-range'>" + restaurant.currency + "</div>");
-    var addressDiv = $("<div id='address'>" + restaurant.location.address + "</div>");
-    $("#restaurantInfo").empty();
-    $("#restaurantInfo").append(picDiv);
-    $("#restaurantInfo").append(nameDiv);
-    $("#restaurantInfo").append(priceRangeDiv);
-    $("#restaurantInfo").append(addressDiv);
-  }
-
-
-  function populateRestaurantInfo(restaurant) {
      var card = $("<div id='restaurant-info-card' class='card'>");
      var cardTitle = $("<span class='card-title'>" + restaurant.name + ", " + restaurant.currency + "</span>");
      var cardContent = $("<div class='card-content'><p>" + restaurant.location.address + "</p></div>");
