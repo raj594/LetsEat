@@ -89,7 +89,15 @@ initialize();
   }
 
   function populateRestaurantInfo(restaurant) {
-    $("#restaurantInfo").html("Hello");
+    var picDiv = $("<div id='restaurant-img'><img src='" + restaurant.thumb + "'></div>");
+    var nameDiv = $("<div id='restaurant-name'>" + restaurant.name + "</div>");
+    var priceRangeDiv = $("<div id='price-range'>" + restaurant.currency + "</div>");
+    var addressDiv = $("<div id='address'>" + restaurant.location.address + "</div>");
+    $("#restaurantInfo").empty();
+    $("#restaurantInfo").append(picDiv);
+    $("#restaurantInfo").append(nameDiv);
+    $("#restaurantInfo").append(priceRangeDiv);
+    $("#restaurantInfo").append(addressDiv);
   }
 
 
