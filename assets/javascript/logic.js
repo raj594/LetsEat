@@ -12,6 +12,14 @@ var infowindow;
 var austin;
 var gmarkers = [];
 var lastMarker;
+var lastSearch = {
+  lastPlace: null,
+  lastRadius: null,
+  lastZip: null,
+  lastPrice: null,
+  lastUnit: null,
+  lastResultsFound: null
+}
 
 var restaurantNumber;
 
@@ -44,7 +52,6 @@ initialize();
       }
       for (var i = 0; i < 1; i++) {
         var place = results[i];
-        console.log(place)
         createMarker(results[i]);
       }
     }
@@ -87,6 +94,19 @@ initialize();
 
   function getRandomNum(min, max) {
     return Math.floor((Math.random() * max) + min);
+  }
+
+
+  function populateRestaurantInfo(restaurant) {
+    var picDiv = $("<div id='restaurant-img'><img src='" + restaurant.thumb + "'></div>");
+    var nameDiv = $("<div id='restaurant-name'>" + restaurant.name + "</div>");
+    var priceRangeDiv = $("<div id='price-range'>" + restaurant.currency + "</div>");
+    var addressDiv = $("<div id='address'>" + restaurant.location.address + "</div>");
+    $("#restaurantInfo").empty();
+    $("#restaurantInfo").append(picDiv);
+    $("#restaurantInfo").append(nameDiv);
+    $("#restaurantInfo").append(priceRangeDiv);
+    $("#restaurantInfo").append(addressDiv);
   }
 
 
@@ -154,6 +174,28 @@ initialize();
     var unitMeausre = $("#unit").val();
     var maxPrice = parseInt($("#prices").val());
 
+
+    if (radius === lastSearch.lastRadius && 
+      place === lastSearch.lastPlace && 
+      zip === lastSearch.lastZip && 
+      unitMeausre === lastSearch.lastUnit && 
+      maxPrice === lastSearch.lastPrice &&
+      (restaurantNumber + 15) < 90 &&
+      (restaurantNumber + 15) < lastSearch.lastResultsFound) { 
+      restaurantNumber += 15;
+    } else {
+      restaurantNumber = 0;
+    }
+
+    lastSearch.lastPlace = place;
+    lastSearch.lastRadius = radius;
+    lastSearch.lastZip = zip;
+    lastSearch.lastUnit = unitMeausre;
+    lastSearch.lastPrice = maxPrice;
+
+
+
+
     //converting miles or km to meters
     if(unitMeausre==="1"){
       radius = radius*1609.34;
@@ -168,7 +210,6 @@ initialize();
           if (status == google.maps.GeocoderStatus.OK) {
             latitude = results[0].geometry.location.lat();
             longitude = results[0].geometry.location.lng();
-            console.log("Latitude" + latitude+ "longitude" + longitude);
           } else {
               alert("Invalid zip code")
           };
@@ -181,7 +222,7 @@ initialize();
     };
 
 
-    queryUrl = "https://developers.zomato.com/api/v2.1/search?count=" + numOptions + "&lat=" + latitude + "&lon=" + longitude + "&radius=" + radius + "&cuisines=" + place;
+    queryUrl = "https://developers.zomato.com/api/v2.1/search?count=" + numOptions + "&start=" + restaurantNumber + "&lat=" + latitude + "&lon=" + longitude + "&radius=" + radius + "&cuisines=" + place;
     console.log(queryUrl)
 
       // Use restaurant search to get lists of restaurants
@@ -197,8 +238,8 @@ initialize();
           alert("Error during getRestaurantOptions");
         }
       }).done( function(response) {
-
-  
+        console.log(response)
+        lastSearch.lastResultsFound = response.results_found;
         var restaurants = response.restaurants;
         var randomNum;
         var resultsFound = false;
@@ -206,11 +247,11 @@ initialize();
         // Pick a random restaurant out of the results returned. If that restaurant is outside the specified radius, then cycle through the others to check if there
         // is a restaurant in the returned results that fits the search criteria
         while (restaurants.length > 0) {
-          console.log(restaurants);
+
           // Pick a random number that will be the index for the restaurant to show the user
           randomNum = getRandomNum(0, restaurants.length - 1);
           restaurant = restaurants[randomNum].restaurant;
-          console.log(restaurant);
+
           // If the chosen restaurant is within the proper radius, then break out of the while loop
           if (radius === 0 && zip === restaurant.location.zipcode) {
             resultsFound = true;
@@ -230,7 +271,6 @@ initialize();
 
         if (resultsFound) {
           request.query = restaurant.name;
-          console.log(request.query)
 
           service = new google.maps.places.PlacesService(map);
           service.textSearch(request, callback);

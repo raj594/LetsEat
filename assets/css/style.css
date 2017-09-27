@@ -43,12 +43,16 @@ body{
  /* Always set the map height explicitly to define the size of the div
  * element that contains the map. */
 #map {
-  height: 500px;
-  width: 500px;
+  height: 50%;
+  width: 100%;
   display: inline-block;
   margin-top: 30px;
-
 }
+
+#restaurant-img {
+  width: 100%;
+}
+
 /* Optional: Makes the sample page fill the window. */
 html, body {
   height: 100%;
