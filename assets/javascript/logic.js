@@ -106,10 +106,10 @@ initialize();
      var cardContent = $("<div class='card-content'><p>" + restaurant.location.address + "</p></div>");
 
      // If there is a picture available,  then add it to the card
-     if (restaurant.thumb !== "") {
-       var cardImg = $("<div class='card-image'><img src='" + restaurant.thumb + "'>");
-       card.append(cardImg);
-     }
+     // if (restaurant.thumb !== "") {
+     //   var cardImg = $("<div class='card-image'><img src='" + restaurant.thumb + "'>");
+     //   card.append(cardImg);
+     // }
    
      card.append(cardTitle);
      card.append(cardContent);
@@ -148,7 +148,7 @@ initialize();
     var longitude = "";
 
     // Number of restaurant options to return during restaurant search
-    var numOptions = 20;
+    var numOptions = 100;
     // Number of reviews to return
     var numReviews = 5;
     // Object to hold the selected restaurant's name and zomato id
@@ -170,9 +170,9 @@ initialize();
       zip === lastSearch.lastZip && 
       unitMeausre === lastSearch.lastUnit && 
       maxPrice === lastSearch.lastPrice &&
-      (restaurantNumber + 15) < 90 &&
-      (restaurantNumber + 15) < lastSearch.lastResultsFound) { 
-      restaurantNumber += 15;
+      (restaurantNumber + 10) < 85 &&
+      (restaurantNumber + 10) < lastSearch.lastResultsFound) { 
+      restaurantNumber += 8;
     } else {
       restaurantNumber = 0;
     }
@@ -212,7 +212,7 @@ initialize();
     };
 
 
-    queryUrl = "https://developers.zomato.com/api/v2.1/search?count=" + numOptions + "&start=" + restaurantNumber + "&lat=" + latitude + "&lon=" + longitude + "&radius=" + radius + "&cuisines=" + place;
+    queryUrl = "https://developers.zomato.com/api/v2.1/search?start=" + restaurantNumber + "&lat=" + latitude + "&lon=" + longitude + "&radius=" + radius + "&cuisines=" + place;
 
       // Use restaurant search to get lists of restaurants
       $.ajax({
@@ -227,7 +227,7 @@ initialize();
           alert("Error during getRestaurantOptions");
         }
       }).done( function(response) {
-
+        console.log(response)
         lastSearch.lastResultsFound = response.results_found;
         // var restaurants = response.restaurants;
         var randomNum;
