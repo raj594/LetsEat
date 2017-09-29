@@ -123,6 +123,8 @@ initialize();
       var p = ("<p>");
       p = arrayofreviews[0].review.review_text;
       var userpic = $("<img>")
+      userpic.addClass("reviewImg");
+      userpic.addClass("circle");
       var userImg = arrayofreviews[0].review.user.profile_image;
       var username = $("<h1>");
       username = arrayofreviews[0].review.user.name;
