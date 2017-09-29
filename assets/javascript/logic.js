@@ -1,8 +1,8 @@
-$('#firstReview').hide();
+
 
 $(document).ready(function() {
 
-
+$('#firstReview').hide();
 $('select').material_select();
 
 
@@ -14,6 +14,7 @@ var infowindow;
 var austin;
 var gmarkers = [];
 var lastMarker;
+var validZip;
 var lastSearch = {
   lastPlace: null,
   lastRadius: null,
@@ -99,8 +100,7 @@ initialize();
     return Math.floor((Math.random() * max) + min);
   }
 
-
-  function populateRestaurantInfo(restaurant) {
+function populateRestaurantInfo(restaurant) {
      var card = $("<div id='restaurant-info-card' class='card'>");
      var cardTitle = $("<span class='card-title'>" + restaurant.name + ", " + restaurant.currency + "</span>");
      var cardContent = $("<div class='card-content'><p>" + restaurant.location.address + "</p></div>");
@@ -110,21 +110,31 @@ initialize();
      //   var cardImg = $("<div class='card-image'><img src='" + restaurant.thumb + "'>");
      //   card.append(cardImg);
      // }
+
+     if(validZip === true) {
    
      card.append(cardTitle);
      card.append(cardContent);
      $("#restaurantInfo").empty();
      $("#restaurantInfo").append(card);
+      }
+      
+
+    else {
+      $('#firstReview').hide();
+      errorMessage();
+       }
    }
 
    function getReviews(arrayofreviews) {
 
-      if(arrayofreviews.length!=0) {  
+      if(arrayofreviews.length!=0&&validZip===true) {  
       var p = ("<p>");
       p = arrayofreviews[0].review.review_text;
       var userpic = $("<img>")
       userpic.addClass("reviewImg");
       userpic.addClass("circle");
+      userpic.addClass("responsive-img");
       var userImg = arrayofreviews[0].review.user.profile_image;
       var username = $("<h1>");
       username = arrayofreviews[0].review.user.name;
@@ -138,10 +148,23 @@ initialize();
       }
     }
 
+    function errorMessage() {
+      var showError = $("<div>");
+      var p = $("<p>");
+      p.addClass("errorText"); 
+      p.text("Invalid Zip Code");
+      showError.append(p);
+      $("#restaurantInfo").append(showError);
+
+    }
+
+
+
   $('#pick-restaurant').on('click', function(event){
     event.preventDefault();
     $('#cardContent').empty();
     $('#cardImg').empty();
+    $("#restaurantInfo").empty();
     
     // API key for Zomato
     var apiKey = "78c3b592f11e635d1163fbb5b3ca7918";
@@ -202,8 +225,9 @@ initialize();
           if (status == google.maps.GeocoderStatus.OK) {
             latitude = results[0].geometry.location.lat();
             longitude = results[0].geometry.location.lng();
+            validZip = true;
           } else {
-              alert("Invalid zip code")
+              validZip = false;
           };
 
     var request = {
@@ -276,6 +300,7 @@ initialize();
           }).done( function(response) {
             var reviewArray = response.user_reviews;
             getReviews(reviewArray);
+
             
           });
           request.query = restaurant.name;
