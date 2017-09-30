@@ -130,7 +130,8 @@ function populateRestaurantInfo(restaurant) {
    function getReviews(arrayofreviews) {
 
       allReviews = arrayofreviews;
-      if(arrayofreviews.length!=0&&validZip===true) {  
+      if(arrayofreviews.length!=0&&validZip===true) {
+      
       var p = ("<p>");
       p = arrayofreviews[0].review.review_text;
       var userpic = $("<img>")
@@ -151,14 +152,16 @@ function populateRestaurantInfo(restaurant) {
 
     function showAllReviews() {
 
-      $("#restaurant-reviews").empty();
+     $('#cardContent').empty();
+    $('#cardImg').empty();
       var reviewholder = $("<div>");
       reviewholder.append("<table class = 'responsive-table'><thead><tr><th>User Name</th><th>Rating</th><th>Review Text</th></thead><tbody><tr><td>" + allReviews[0].review.user.name + "</td><td>" + allReviews[0].review.rating +
        "</td><td>" + allReviews[0].review.review_text + "</td></tr><tr><td>" + allReviews[1].review.user.name + "</td><td>" + allReviews[1].review.rating + "</td><td>" + allReviews[1].review.review_text + 
        "</td></tr><tr><td>" + allReviews[2].review.user.name + "</td><td>" + allReviews[2].review.rating + "</td><td>" + allReviews[2].review.review_text + "</td></tr><tr><td>" + 
         allReviews[3].review.user.name + "</td><td>" + allReviews[3].review.rating + "</td><td>"+ allReviews[3].review.review_text + "</td></tr><tr><td>" + allReviews[4].review.user.name + "</td><td>" + 
         allReviews[4].review.rating + "</td><td>" + allReviews[4].review.review_text + "</td></tr></tbody></table>");
-      $("#restaurant-reviews").append(reviewholder);
+      $("#showMoreReviews").hide();
+      $("#cardContent").append(reviewholder);
 
     }
 
@@ -182,6 +185,9 @@ function populateRestaurantInfo(restaurant) {
     $('#cardContent').empty();
     $('#cardImg').empty();
     $("#restaurantInfo").empty();
+    $("#showMoreReviews").show();
+
+
     
     // API key for Zomato
     var apiKey = "78c3b592f11e635d1163fbb5b3ca7918";
