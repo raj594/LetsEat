@@ -280,31 +280,7 @@ function populateRestaurantInfo(restaurant) {
         restaurant = restaurants[randomNum].restaurant;
         populateRestaurantInfo(restaurant);
 
-        // Pick a random restaurant out of the results returned. If that restaurant is outside the specified radius, then cycle through the others to check if there
-        // is a restaurant in the returned results that fits the search criteria
-        // while (restaurants.length > 0) {
-
-        //   // Pick a random number that will be the index for the restaurant to show the user
         
-
-        //   // If the chosen restaurant is within the proper radius, then break out of the while loop
-        //   if (radius === 0 && zip === restaurant.location.zipcode) {
-        //     resultsFound = true;
-        //     break;
-        //   }
-        //   // Added 500 to radius as estimate to account for length and width of zip code area
-        //   else if (Math.abs(restaurant.location.latitude - latitude) <= radius + 500 && Math.abs(restaurant.location.longitude - longitude) <= radius + 500) {
-        //     resultsFound = true;
-        //     break;
-        //   }
-        //   // Remove the restaurant that was found to be out of radius from the restaurants array
-        //   else {
-        //     restaurants.splice(randomNum, 1);
-        //   }
-        // }
-
-
-        // if (resultsFound) {
           $.ajax({
             url: "https://developers.zomato.com/api/v2.1/reviews?res_id=" + restaurant.id + "&count=" + numReviews,
             method: "GET",
@@ -324,14 +300,6 @@ function populateRestaurantInfo(restaurant) {
           request.query = restaurant.name;
           console.log(request)
           service.textSearch(request, callback);
-
-          
-          // Use reviews search to get reviews for the chosen restaurant
-          
-        // }
-        // else {
-        //   console.log("No results found within specified radius");
-        // }
 
       });
 
