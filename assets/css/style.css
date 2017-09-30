@@ -4,6 +4,10 @@
 	color: #677077;
 }
 
+.divider {
+  background-color: #677077;
+}
+
 body{
 	background-color: #252839;
   color: #677077;
@@ -23,9 +27,18 @@ body{
 	color: #f2b632;
 }
 
-.input-field input[type=text]:focus + label {
+.input-field input[type=text]:focus + label, .materialize-textarea:focus:not([readonly]) + label {
 	color: #f2b632 !important;
+
 }
+
+
+input[type=text].valid:not(.browser-default), 
+.select-wrapper.valid>input.select-dropdown {
+border-bottom: 1px solid #f2b632;
+box-shadow: 0 1px 0 0 #f2b632;
+}
+
 
 .row .input-field input:focus {
    border-bottom: 1px solid #f2b632 !important;
