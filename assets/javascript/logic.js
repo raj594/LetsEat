@@ -15,6 +15,7 @@ var austin;
 var gmarkers = [];
 var lastMarker;
 var validZip;
+var allReviews;
 var lastSearch = {
   lastPlace: null,
   lastRadius: null,
@@ -128,13 +129,13 @@ function populateRestaurantInfo(restaurant) {
 
    function getReviews(arrayofreviews) {
 
+      allReviews = arrayofreviews;
       if(arrayofreviews.length!=0&&validZip===true) {  
       var p = ("<p>");
       p = arrayofreviews[0].review.review_text;
       var userpic = $("<img>")
       userpic.addClass("reviewImg");
       userpic.addClass("circle");
-      userpic.addClass("responsive-img");
       var userImg = arrayofreviews[0].review.user.profile_image;
       var username = $("<h1>");
       username = arrayofreviews[0].review.user.name;
@@ -147,6 +148,21 @@ function populateRestaurantInfo(restaurant) {
       $("#firstReview").show();
       }
     }
+
+    function showAllReviews() {
+      var reviewholder = $("<div>");
+      reviewholder.append("<table><thead><tr><th>User Name</th><th>Rating</th><th>Review Text</th></thead><tbody><tr><td>" + allReviews[0].review.user.name + "</td><td>" + allReviews[0].review.rating +
+       "<td></td>" + allReviews[0].review.review_text + "</td></tr><tr><td>" + allReviews[1].review.user.name + "</td><td>" + allReviews[1].review.rating + "</td><td>" + allReviews[1].review.review_text + 
+       "</td></tr><tr><td>" + allReviews[2].review.user.name + "</td><td>" + allReviews[2].review.rating + "</td><td>" + allReviews[2].review.review_text + "</td></tr><tr><td>" + 
+        allReviews[3].review.user.name + "</td><td>" + allReviews[3].review.rating + "</td><td>"+ allReviews[3].review.review_text + "</td></tr><tr><td>" + allReviews[4].review.user.name + "</td><td>" + 
+        allReviews[4].review.rating + "</td><td>" + allReviews[4].review.review_text + "</td></tr></tbody></table>");
+      $("#firstReview").empty();
+      $("#firstReview").append(reviewholder);
+
+    }
+
+
+
 
     function errorMessage() {
       var showError = $("<div>");
@@ -300,6 +316,7 @@ function populateRestaurantInfo(restaurant) {
           }).done( function(response) {
             var reviewArray = response.user_reviews;
             getReviews(reviewArray);
+            console.log(response);
 
             
           });
@@ -320,5 +337,11 @@ function populateRestaurantInfo(restaurant) {
     });
 
   });
+
+
+  $("#showMoreReviews").on("click", function(){
+    showAllReviews();
+
+  })  
 
 });
