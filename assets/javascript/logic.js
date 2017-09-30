@@ -150,14 +150,15 @@ function populateRestaurantInfo(restaurant) {
     }
 
     function showAllReviews() {
+
+      $("#restaurant-reviews").empty();
       var reviewholder = $("<div>");
-      reviewholder.append("<table><thead><tr><th>User Name</th><th>Rating</th><th>Review Text</th></thead><tbody><tr><td>" + allReviews[0].review.user.name + "</td><td>" + allReviews[0].review.rating +
-       "<td></td>" + allReviews[0].review.review_text + "</td></tr><tr><td>" + allReviews[1].review.user.name + "</td><td>" + allReviews[1].review.rating + "</td><td>" + allReviews[1].review.review_text + 
+      reviewholder.append("<table class = 'responsive-table'><thead><tr><th>User Name</th><th>Rating</th><th>Review Text</th></thead><tbody><tr><td>" + allReviews[0].review.user.name + "</td><td>" + allReviews[0].review.rating +
+       "</td><td>" + allReviews[0].review.review_text + "</td></tr><tr><td>" + allReviews[1].review.user.name + "</td><td>" + allReviews[1].review.rating + "</td><td>" + allReviews[1].review.review_text + 
        "</td></tr><tr><td>" + allReviews[2].review.user.name + "</td><td>" + allReviews[2].review.rating + "</td><td>" + allReviews[2].review.review_text + "</td></tr><tr><td>" + 
         allReviews[3].review.user.name + "</td><td>" + allReviews[3].review.rating + "</td><td>"+ allReviews[3].review.review_text + "</td></tr><tr><td>" + allReviews[4].review.user.name + "</td><td>" + 
         allReviews[4].review.rating + "</td><td>" + allReviews[4].review.review_text + "</td></tr></tbody></table>");
-      $("#firstReview").empty();
-      $("#firstReview").append(reviewholder);
+      $("#restaurant-reviews").append(reviewholder);
 
     }
 
